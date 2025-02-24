@@ -299,6 +299,56 @@ In order to push image to docker hub, you need to login into docker hub.
 you will be asked to provide username and password.
 
 
+ steps to build docker image:
+ 
+  #change to directory containing your Dockerfile
+  cd Dockerfiles
+
+  #build the docker image
+  docker build -t <image-name>:<tag>
+
+  #example
+  docker build -t mynginx-custom:v1 . (why dot in the end? because where my currrent directory is present)
+
+
+
+  # tag and push the docker image to dockerhub
+
+   #list docker images
+   docker images
+
+   #tag the docker image
+   docker tag myapp:v2 YOUR_DOCKER_USERNAME/myapp:v2
+
+   #example
+   docker tag myapp:v2 edaddy/myapp:v2
+
+   #push the docker image to dockerhub
+   docker push YOUR_DOCKER_USERNAME/myapp:v2
+
+   #docker search commnds
+   docker search nginx
+
+   #limit the search result to 5
+   docker search nginx --limit 5
+
+   #filter search result by stars
+   docker search --filter=stars=50 nginx
+
+   #filter for official image only
+   docker search --filter=is-official=true nginx
+
+# Dockerfile - LABEL Instructions
+-----------------------------------------
+what is LABEL instructions in dockerfile?
+- adds metadata to an image.
+- an image can have more than one label.
+- labels included in your base image are inherited by your image.
+
+
+How to view image labels?
+- docker image inspect --format='{{json.Config.Labels}}' myimage
+
  
 
 

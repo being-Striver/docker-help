@@ -3,7 +3,8 @@ FROM nginx:alpine-slim
 
 # Custom label
 LABEL maintainer="Sudhanshu Bhagat"
-LABEL version= "v1"
+LABEL version="1.0"
+
 LABEL description="This is a custom image for nginx server"
 LABEL release-date="2025-21-02"
 
