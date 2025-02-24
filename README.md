@@ -2,6 +2,16 @@
 -----------------------------------------
 a runtime environment for container.
 
+   # docker deafult parameter
+   -------------------------------
+   once docker is installed, how would you verify that correct packages are installed or not? which command will you run to check that?
+
+   commands :
+    -dpkg -l | grep docker-ce 
+    -dpkg -l | grep containerd.io 
+    -dpkg -l | grep docker-compose-plugin 
+    
+
 
 # Terminology
 -----------------------------------------
@@ -243,6 +253,31 @@ user can access my web application on http://192.168.1.5.80
    
    - this way you can route your traffic from port 80 to port 5000 on docker container.
    - through this way, you can run multiple instances of your application and map them to different ports on docker host or run instances of different applications on diffrent ports.
+
+
+-- docker run --name <container-name> -p <host_port>:<container_port> <image-name>:<tag(optional)>
+
+hostname of the container is the containerID for container.
+-- docker exec <container-id> hostname
+
+
+      # how to run command in container's terminal
+       - docker exec -it <container-name or container-id> /bin/sh (it will connect you to container's terminal where you can execute shell command)
+
+      # how to get index.html file in ngix
+      - docker exec -it nginx /bin/sh
+      - ls
+      - cd /usr/share/nginx/html
+      - cat index.html
+
+  how to verify whether container is up and running or not?
+  - docker ps
+  
+  test if application is back up or not
+  - curl http://localhost:80
+  - 
+
+
  
 
 
