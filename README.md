@@ -10,14 +10,14 @@ a runtime environment for container.
     -dpkg -l | grep docker-ce 
     -dpkg -l | grep containerd.io 
     -dpkg -l | grep docker-compose-plugin 
-    
+
 
 
 # Terminology
 -----------------------------------------
 docker daemon:
 -----------------
-- the docker daemon(dockerd) listens for docker API requests and manages docker objects such as images, containers, networks and      volumes.
+- the docker daemon(dockerd) listens for docker API requests and manages docker objects such as images, containers, networks and volumes.
 
 docker client:
 -------------------
@@ -64,7 +64,8 @@ docker client:
 
     # Container vs image:
     -----------------------
-        Image is a template which is used to create container.while containers are running instances of images and they are isolated and they have their own environment and set of processes.
+        Image is a template which is used to create container.while containers are running instances of images and they are isolated 
+        and they have their own environment and set of processes.
 
 
 
@@ -73,15 +74,18 @@ docker client:
 # To understand how docker works, lets understand how OS works?
 --------------------------------------------------------------
 in OS, there is OS kernel which is responsible for communicating with underlying hardware whereas OS kernel remains the same.
-Its the softwares above it, that makes it diffrent.You need to have common linux OS kernel which shares across all OSes and some custom software which diffrentiate operating systems(oses) from each other.
+Its the softwares above it, that makes it diffrent.You need to have common linux OS kernel which shares across all OSes and some custom
+ software which diffrentiate operating systems(oses) from each other.
 
 
     # Docker container shares the underlying os kernel:
     -------------------------------------------------------
-    Lets say we have a system having ubuntu OS with docker installed on it.Docker can run any flavour of OS on top of it as long as they based on the same kernel.In this case, linux.
+    Lets say we have a system having ubuntu OS with docker installed on it.Docker can run any flavour of OS on top of it as long as 
+    they based on the same kernel.In this case, linux.
 
 
-    There are most of containerised version of apps are available today.They are available in public docker repository called dockerhub or docker store.
+    There are most of containerised version of apps are available today.They are available in public docker repository called dockerhub
+    or docker store.
 
 
 # what is docker image?
@@ -96,7 +100,8 @@ Its the softwares above it, that makes it diffrent.You need to have common linux
 
 **NOTE:** Docker images - images become containers when they run on docker engine.
 
-First we have to understand what we are containerising and what application we are creating an image for and how the application is built. So start by thinking what you might do if you want to build application manually.
+First we have to understand what we are containerising and what application we are creating an image for and how the application is 
+built. So start by thinking what you might do if you want to build application manually.
 
 We write down the steps required in the right order and creating an image for simple web application. 
   1. OS -ubuntu
@@ -123,14 +128,18 @@ Now I have the instructions, create a docker file using these.
 Dockerfile is text file written in specific format that docker can understand. it is in INSTRUCTION & ARGUMENT FORMAT.
 
 When docker builds the images, it builds these in layered architecture.
-Each line of instruction creates a new layer in the docker image with just change from the previous layer . Since each layer only store the changes from previous layer, it is reflected in size as well.
+Each line of instruction creates a new layer in the docker image with just change from the previous layer . Since each layer only store 
+the changes from previous layer, it is reflected in size as well.
 
 --docker history <image-name>
 
-    All the layers built are cached by docker.so in case if a particular step fails, you want to fix the issue and rerun the docker build,it will reuse the previous layers from the cache and continue to build remaining layers.
-    The same is true if you have to add additonal steps in the docker file. This way rebuilding your image is faster and you don't have to wait for docker to rebuild entire image each time.
+    All the layers built are cached by docker.so in case if a particular step fails, you want to fix the issue and rerun the docker 
+    build,it will reuse the previous layers from the cache and continue to build remaining layers.
+    The same is true if you have to add additonal steps in the docker file. This way rebuilding your image is faster and you don't have 
+    to wait for docker to rebuild entire image each time.
 
-    This is helpful, especially when you update source code of your application as it may change more frequently.Only the layers above the updated layer needs to be rebuilt. 
+    This is helpful, especially when you update source code of your application as it may change more frequently.Only the layers above 
+    the updated layer needs to be rebuilt. 
 
 
 # Docker Registry:
@@ -146,7 +155,10 @@ Each line of instruction creates a new layer in the docker image with just chang
   - Jfrog artifactory
   - DTR(docker trusted registry)
 
-**NOTE:** Please be sure container is running on what port.The process running on what port in container so you can map a host port. You cannot connect to this container directly because its going to be in a private network in the host machine, there will be private network.If you want to access outside from the container, then you have to map a host port, so you can access the host on that port and then it is going to route that request to container on port that you have specified.
+**NOTE:** Please be sure container is running on what port.The process running on what port in container so you can map a host port. 
+You cannot connect to this container directly because its going to be in a private network in the host machine, there will be private
+ network.If you want to access outside from the container, then you have to map a host port, so you can access the host on that port and 
+ then it is going to route that request to container on port that you have specified.
       -command : -p 7090:80 (this is called port mapping or port forwaring) -(you map a host port with container port)
 
 As we know container is just a process running from directory. You can run "ps -ef" on my host machine. you will see process id of your container.
@@ -276,6 +288,15 @@ hostname of the container is the containerID for container.
   test if application is back up or not
   - curl http://localhost:80
   - 
+
+# Build docker image and push to docker hub
+-----------------------------------------------
+command to build docker image:
+ - docker build -t <image-name-you-want-to-name>
+
+In order to push image to docker hub, you need to login into docker hub.
+-- docker login
+you will be asked to provide username and password.
 
 
  
