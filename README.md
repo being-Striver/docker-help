@@ -292,7 +292,7 @@ hostname of the container is the containerID for container.
 # Build docker image and push to docker hub
 -----------------------------------------------
 command to build docker image:
- - docker build -t <image-name-you-want-to-name>
+ - docker build -t <[image-name-you-want-to-name]>
 
 In order to push image to docker hub, you need to login into docker hub.
 -- docker login
@@ -305,7 +305,7 @@ you will be asked to provide username and password.
   cd Dockerfiles
 
   #build the docker image
-  docker build -t <image-name>:<tag>
+  docker build -t <[image-name]>:<[tag]>
 
   #example
   docker build -t mynginx-custom:v1 . (why dot in the end? because where my currrent directory is present)
@@ -346,8 +346,40 @@ what is LABEL instructions in dockerfile?
 - labels included in your base image are inherited by your image.
 
 
-How to view image labels?
-- docker image inspect --format='{{json.Config.Labels}}' myimage
+**NOTE**: jq is a light weight and flexible command line json processor, useful for parsing JSON output from command like *docker inspect*
+
+
+    #Inspect the docker image 
+    - docker image inspect <[myimage]>
+
+    #example
+    - docker image inspect <[image-name]>
+
+    #get the creation date of docker-image
+    - docker inspect --format='{{.Created}}' [image-name]:<[image-tage]>
+
+    #get the docker image labels 
+    - docker inspect --format='{{json.Config.Labels}}' [image-name]:<[image-tag]> | jq
+
+# Dockerfile ADD and COPY Instructions
+---------------------------------------------
+What is COPY INSTRUCTION in dockerfile?
+- The COPY instruction copies new files or directories from src and adds them to the filesystem of the image at the path destination.
+- files and directories can be copied from the 
+    - build context
+    - build stage 
+    - named context 
+    - an image
+
+What is ADD INSTRUCTION in Dockerfile?
+- The ADD instruction copies new files or directories from SRC and adds them to the filesystem of the image at path destination.
+- Files and directories can be copied from the 
+    - a build context
+    - a remote url  
+    - a git repository 
+
+
+    
 
  
 
