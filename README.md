@@ -379,9 +379,37 @@ What is ADD INSTRUCTION in Dockerfile?
     - a git repository 
 
 
+   #Review app-files folder and tar the files
+
+    #navigate to the app-files folder
+    cd /Dockerfiles-Add-VS-Copy/App-files
+
+    #Create a tar.gz archive of the files
+    tar -czvf static-_files.tar.gz index.html file1.html file2.html file3.html file4.html file5.html 
+
+    #copy the tar.gz file to the Dockerfiles directory
+    ADD static_files.tar.gz ../Dockerfiles
+
+    #Review the copy-file.html in dockerfiles
+    cat ../Dockerfiles/copy-file.html
+--------------------------------------------------------
+       STOP and REMOVE CONTAINER IMAGES:
+
+            # Stop and remove the container
+            docker rm -f demo-add-vs-copy
+
+            # Remove the Docker images
+            docker rmi static_image:v1
+
+            # List Docker Images to confirm removal
+            docker images 
     
 
- 
+# Dockerfile: ADD - Fetch from URL(Github)
+-----------------------------------------------
+- To add files from a remote location, you can specify the
+   - url
+   - git release:  
 
 
 
