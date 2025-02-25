@@ -541,6 +541,24 @@ what is RUN instruction in Dockerfile?
    - This frees up some space, since git repo is no longer needed.
 
 
+# What is Cache Invalidation?
+-------------------------------------
+Docker uses a layered caching system to speed up image builds. Each instruction (RUN, COPY, ADD, etc.) creates a new layer. If an instruction changes, Docker invalidates that layer and all subsequent layers, forcing a rebuild.
+
+ 1. How Docker Caching Works in RUN
+    - When you build a Docker image, Docker checks if a previously built layer can be reused.
+
+        - If the RUN command has not changed, Docker uses the cache.
+        - If the RUN command changes, Docker invalidates the cache and rebuilds from that step.
+ 2. When is Cache Invalidated?
+      A) When a RUN Command is Modified
+    - Even a small change in a RUN instruction invalidates the cache.
+
+
+      B) using --no-cache 
+      - This ensures that everything is built from scratch.
+
+
 
  
 
