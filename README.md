@@ -430,7 +430,87 @@ What is ADD INSTRUCTION in Dockerfile?
    # Step 2: Create Dockerfile and ADD instructions
    # Step 3: Build docker image and run it.
    # Step 4: Stop and remove container and images
-   
+
+
+   RUN apk add --no-cache git
+   - apk is a package manager for alipne linux(base image nginx:alpine-slim)
+   - add installs a package(here git)
+   - --no-cache prevents saving package cache, reducing image size.
+  
+  Effect : installs git inside the container.
+
+
+  RUN git clone --depth 1 --branch v1.0.0 https://github.com/being-Striver/docker-add-fetch-url-demo.git /tmp/repo
+  - git clone download the specified repository
+  - --depth 1 clones only the latest commit, reducing the amount of downloaded history
+  - --branch v1.0.0 checks out the specific branch
+  - /tmp/repo is the destination folder inside the container
+
+ Effect: clones the v1.0.0 branch of github repo into /tmp/repo
+
+ cp -r /tmp/repo/docs /usr/share/nginx/html/
+ - cp -r copies the /docs directory recursively
+
+ Effect: moves the docs folder to nginx web root, making its conents available via a web browser
+
+ rm -rf /tmp/repo
+ - rm -rf forcefully removes the /tmp/repo directory
+ - This frees up some space, since git repo is no longer needed.
+
+
+
+
+# Dockerfile - ARG Instruction
+---------------------------------------------------------
+what is ARG instruction in dockerfile?
+- defines a variable that users can pass at build time to the builder with 
+- command : docker build --build-arg <variable-name>=<value>
+- we can define one or more ARG instructions.
+- we can define default values for ARG instructions in dockerfile.
+-  ARG NGINX_VERSION=1.26
+- An argument variable(ARG) definition comes into effect from the line on which it is defined.
+- ENV variables always override ARG variables (if same variable defined in both places).
+
+
+
+# docker system prune -af 
+--------------------------------
+This command will forcefully removes unused docker data, including:
+ - all stopped containers
+ - all dangling images(unused images without tags)
+ - all unused networks
+ - all unused build cache
+ - This will not remove images currently in use.
+ - -a(all) : removes all unused images, including untagged and unused images
+ - -f(force): runs the command without asking for confirmation.
+  
+  When should you use this?
+  - to free up disk space(especially after multiple builds)
+  - to remove old images and containers that are not being used
+  - to clean up unnecessary docker cache
+
+  #USE BELOW COMMAND FIRST TO CHECK WHAT WILL BE REMOVED
+  - docker system df
+
+  #Remove only unused images
+  - docker image prune -a
+  
+  #Remove only stopped containers
+  - docker container prune
+ 
+  #Remove only build cache
+  - docker builder prune
+  
+  NOTE: When you run *docker system prune -af*, it deletes all unused images, including those without a tag. If you have images that you want to keep, but they are not currently used in a running container, they might be deleted. To prevent this, you should tag them.
+
+  - docker tag [<image-id>] [image-name]:[tag(optional)]
+
+  Tagging ensures important images are not lost during cleanup.
+
+
+
+
+ 
 
 
 
