@@ -510,6 +510,38 @@ This command will forcefully removes unused docker data, including:
 
 
 
+# RUN INSTRUCTION AND EXPOSE INSTRUCTION
+------------------------------------------------------
+what is RUN instruction in Dockerfile?
+-The RUN instruction will execute any commands to create a new layer on top of the current image.
+
+   - RUN apk add --no-cache git
+     - apk is a package manager for alipne linux(base image nginx:alpine-slim)
+     - add installs a package(here git)
+     - --no-cache prevents saving package cache, reducing image size.
+    
+  Effect : installs git inside the container.
+
+
+  - RUN git clone --depth 1 --branch v1.0.0 https://github.com/being-Striver/docker-add-fetch-url-demo.git /tmp/repo
+    - git clone download the specified repository
+    - --depth 1 clones only the latest commit, reducing the amount of downloaded history
+    - --branch v1.0.0 checks out the specific branch
+    - /tmp/repo is the destination folder inside the container
+
+ Effect: clones the v1.0.0 branch of github repo into /tmp/repo
+
+ - cp -r /tmp/repo/docs /usr/share/nginx/html/
+   - cp -r copies the /docs directory recursively
+
+ Effect: moves the docs folder to nginx web root, making its conents available via a web browser
+
+ - rm -rf /tmp/repo
+   - rm -rf forcefully removes the /tmp/repo directory
+   - This frees up some space, since git repo is no longer needed.
+
+
+
  
 
 
