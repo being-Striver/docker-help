@@ -411,6 +411,26 @@ What is ADD INSTRUCTION in Dockerfile?
    - url
    - git release:  
 
+    # Step 1: Create GitHub Repository and Upload Files
+        Create a GitHub Repository:
+            - Repository Name: docker-add-fetch-url-demo
+            - Repository Type: Public
+            - Initialize with a README (optional).
+        
+        Upload Files:
+            - Upload docs folder into your repository.
+            - You can drag and drop the docs folder for easy upload.
+        
+        Create a Git Release:
+            - Go to the Releases section in your repository.
+            - Click on Draft a new release.
+            - Tag version: v1.0.0
+            - Release title: Version 1.0.0
+            - Click on Publish release.
+   # Step 2: Create Dockerfile and ADD instructions
+   # Step 3: Build docker image and run it.
+   # Step 4: Stop and remove container and images
+   
 
 
 
