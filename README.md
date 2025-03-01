@@ -594,7 +594,21 @@ CMD INSTRUCTION:
  - Syntax options:
         - CMD ["executable", param1, param2]
         - CMD["param1", "param2"]
-        - 
+
+
+
+ ERROR:
+ ------------
+ docker: Error response from daemon: Ports are not available: exposing port TCP 0.0.0.0:8080 -> 0.0.0.0:0: listen tcp 0.0.0.0:8080: bind: Only one usage of each socket address (protocol/network address/port) is normally permitted.
+
+  steps to fix:
+   1. check if port 8080 is already in use
+      - netstat -ano | findstr :8080
+   
+   2. you can then find and terminate the process
+      - taskkill /F /PID <PID>
+
+   3. You can map different port.
 
 
 

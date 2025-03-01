@@ -26,7 +26,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY app.py .
 
 # copy the templates directory
-COPY Templates/ ./Templates/
+COPY templates/ ./templates/
 
 
 # PRINT the ENVIRONMENT VARIABLE for demo purpose
