@@ -563,6 +563,39 @@ Docker uses a layered caching system to speed up image builds. Each instruction 
 ----------------------------------------------
 It informs the docker that the container listens on the specified networks ports at runtime.
 
+command:
+ - EXPOSE [LIST OF PORT NUMBER]
+
+
+# CMD , WORKDIR and ENV INSTRUCTIONs
+-----------------------------------------------------------------------------------------------------------------------------
+ ENV INSTRUCTION:
+ --------------------
+  - ENV sets the environment variables.
+ 
+ What is the key difference between ENV and ARG?
+  - ENV is persisted in the final image and will be available in container when it is run from this image.
+  - ARG is not persisted in the final image, so no scope of using that value in the container when it is running from this image.
+
+
+WORKDIR INSTRUCTION:
+----------------------------
+ - Sets the working directory for any RUN, CMD, ENTRYPOINT, COPY, ADD instructions that follow it in the dockerfile.
+ - The WORKDIR instruction can be used multiple times in the dockerfile.
+ - If WORKDIR not specified, the default working directory is "/".
+ - If we are using the base image "FROM PYTHON", WORKDIR likely to be set by the base image.
+ - NOTE: To avoid unintended operations in unknown directories, it's best practice to set WORKDIR explicitely.
+
+CMD INSTRUCTION:
+-----------------------------
+ - defines the command to run when starting a container from the image.
+ - only one CMD instruction is allowed per dockerfile, if there are multiple, only the last one is used.
+ - used to set default commands or parameters for the container.
+ - Syntax options:
+        - CMD ["executable", param1, param2]
+        - CMD["param1", "param2"]
+        - 
+
 
 
 
