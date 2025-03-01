@@ -1,14 +1,22 @@
 # Docker Volume:
 ------------------
-Containers are generally known for its volatile nature.That's because containers are disposable.The way you make any changes in container, through image.thats because its called volatile.
-if you store any data in the container and if we have to replace it, its going to remove the container and create a new container so when it removes the container, all the data will be also gone.but what if you have container which is stateful like Mysql that needs DB, it stores databases and reads from the database. if you happen to replace that container, all the data will be also gone.So for that we have containers volumes.
+Containers are generally known for its volatile nature.That's because containers are disposable.The way you make any changes in 
+container, through image.thats because its called volatile.
+if you store any data in the container and if we have to replace it, its going to remove the container and create a new container so 
+when it removes the container, all the data will be also gone.but what if you have container which is stateful like Mysql that needs 
+DB, it stores databases and reads from the database. if you happen to replace that container, all the data will be also gone.So for 
+that we have containers volumes.
 
 Container data:
-- The data doesn't persist when the container no longer exists and it can be difficult to get data out of container if another process need it.
-- A container's writable layer is tightly coupled to host machine where the container is running. You can't easily move data somwhere else.
+- The data doesn't persist when the container no longer exists and it can be difficult to get data out of container if another process 
+  need it.
+- A container's writable layer is tightly coupled to host machine where the container is running. You can't easily move data somewhere
+  else.
 
 - Docker has two options for containers to store files in the host machine.
-  : volumes(its a wrapper where in the docker's volumes directory, it will create a directory and then you can attach that to your container.So whatever data you store in a container at a separate directory, you will attach it to a directory.All that data from container directory will be going to the volumes which is your host machine.so its safe in your host 
+  : volumes(it's a wrapper where in the docker's volumes directory) it will create a directory and then you can attach that to your 
+    container.So whatever data you store in a container at a separate directory, you will attach it to a directory.All that data from 
+	container directory will be going to the volumes which is your host machine.so its safe in your host 
    machine.(managed by Docker(/var/lib/docker/volumes/ on Linux))
    : Bind Mounts (same as vagrant sync directories)-store anywhere in the host machine.
    
@@ -43,3 +51,27 @@ Lets see Volume examples:
 	   - mysql -h <ip_address> -u root -pmysecpass
 	   
 NOTE: Once you are done with activity, make sure you clean up.
+
+
+
+
+
+- Volumes are easier to back up and migrate than bind mounts.
+- Volumes can be managed by docker cli or api.
+- Volumes can be shared across multiple containers.
+- Volume drivers let you store volumes on remote hosts or cloud providers, encrypt the contents of volume or add other functionality.
+
+
+# Docker volume types
+-----------------------------
+1. Named volumes
+2. Anonymous volumes
+
+  
+
+
+# Bind Mounts
+----------------------
+Bind mounts are dependent on directory structure and OS of the host machine. Volumes are completely managed by docker.
+
+

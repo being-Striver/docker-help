@@ -559,6 +559,11 @@ Docker uses a layered caching system to speed up image builds. Each instruction 
       - This ensures that everything is built from scratch.
 
 
+# What is EXPOSE instruction in docker?
+----------------------------------------------
+It informs the docker that the container listens on the specified networks ports at runtime.
+
+
 
 
  
