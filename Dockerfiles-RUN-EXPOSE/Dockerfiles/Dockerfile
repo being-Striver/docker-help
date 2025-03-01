@@ -11,7 +11,7 @@ LABEL org.opencontainers.image.version="1.0"
 COPY nginx-conf/*.conf /etc/nginx/conf.d/
 
 # Copy all HTML files from nginx-html directory
-COPY nginx-html/*.html /usr/share/nginx/html/
+COPY index-html/*.html /usr/share/nginx/html/
 
 # Install curl using RUN
 RUN apk --no-cache add curl
