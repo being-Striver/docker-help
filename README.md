@@ -692,3 +692,8 @@ NOTE: /*If a group is set, only that group applies; other groups ignored.*/
    here group is optional.
 
 
+
+ How do you connect to container with root user which is running its process with non-root user?
+ - docker exec -it --user  root demo-user-c /bin/bash
+
+
