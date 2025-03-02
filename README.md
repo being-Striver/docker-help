@@ -611,6 +611,28 @@ CMD INSTRUCTION:
    3. You can map different port.
 
 
+      #Run Docker Container and override APP_ENVIRONMENT to 'qa'
+      docker run --name my-arg-env-demo2-qa -p 8081:80 -e APP_ENVIRONMENT=qa -d demo9-arg-vs-env:v1
+
+      #List Docker Containers
+      docker ps
+
+      #Print environment variables from Container
+      docker exec -it my-arg-env-demo2-qa env | grep APP_ENVIRONMENT
+
+      #Expected Output:
+      #APP_ENVIRONMENT=qa
+
+      #Access the application in your browser
+      http://localhost:8081 
+
+Question: How do you ensure the default environment is qa when building the Docker image without changing the Dockerfile?
+
+Answer:
+You can override the ENVIRONMENT build-time argument during the image build process using the --build-arg flag. This allows you
+to set the default APP_ENVIRONMENT to qa in the image without modifying the Dockerfile.
+
+
 
 
  
