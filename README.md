@@ -595,7 +595,8 @@ CMD INSTRUCTION:
         - CMD ["executable", param1, param2]
         - CMD["param1", "param2"]
 
-
+ - It can be overridden by specifying a different command during "docker run".
+    : docker run --name demo-cmd -it demo-cmd:v1 /bin/sh 
 
  ERROR:
  ------------
@@ -633,8 +634,22 @@ You can override the ENVIRONMENT build-time argument during the image build proc
 to set the default APP_ENVIRONMENT to qa in the image without modifying the Dockerfile.
 
 
+NOTE: /*You can override ENV variables at runtime using the -e flag with docker run.*/
 
 
+
+
+# ENTRYPOINT Instruction
+----------------------------------
+In Docker, the ENTRYPOINT instruction is used in the Dockerfile to specify the command that will be run when a container is 
+started from the Docker image. It sets the primary command to be executed when the container starts.
+
+- Overridden the ENTRYPOINT instruction using the --entrypoint flag
+
+Best practices:
+- Use ENTRYPOINT when you want to define a container with a specific executable.
+- Use CMD to provide default arguments to the ENTRYPOINT
+- docker run --name demo-entrp demo-entp --entrypoint -c /bin/sh 'echo "command overridden by sudhanshu"'
  
 
 
