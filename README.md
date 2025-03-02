@@ -287,7 +287,17 @@ hostname of the container is the containerID for container.
   
   test if application is back up or not
   - curl http://localhost:80
-  - 
+
+
+In Docker, ephemeral ports refer to the range of dynamically assigned ports that Docker uses for container networking when you don't explicitly bind a container port to a host port. When you run a container without specifying a host port, Docker selects a free ephemeral port from a predefined range (typically 32768 to 60999) on the host machine and maps it to the container's exposed port.
+
+ #publishing ephemeral port
+ -- docker run -d --name demo-single-port -p 80 demo-single
+
+This allows multiple containers to run on the same host machine without port conflicts, as each container can use a different ephemeral port for its exposed services. Ephemeral ports are temporary and released when the container stops running, hence the term "ephemeral." They are a convenient way to manage networking for containers without manually assigning ports, especially useful in dynamic or scalable environments.
+
+#In Docker, using the -P (uppercase) flag in docker run enables multiple ephemeral ports to be assigned for all exposed ports of a container.
+
 
 # Build docker image and push to docker hub
 -----------------------------------------------
@@ -695,5 +705,8 @@ NOTE: /*If a group is set, only that group applies; other groups ignored.*/
 
  How do you connect to container with root user which is running its process with non-root user?
  - docker exec -it --user  root demo-user-c /bin/bash
+
+
+
 
 
