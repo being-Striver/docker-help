@@ -650,7 +650,26 @@ Best practices:
 - Use ENTRYPOINT when you want to define a container with a specific executable.
 - Use CMD to provide default arguments to the ENTRYPOINT
 - docker run --name demo-entrp demo-entp --entrypoint -c /bin/sh 'echo "command overridden by sudhanshu"'
+
+
+
+# HEALTHCHECK INSTRUCTION
+-------------------------------
+It tells docker how to test a container to check that it's still working.
+This can detect cases such as:
+ - web server stuck in a loop, unable to handle new connections even if still running
+ - Health status in docker:
+     - starting : initially during the start
+     - Healthy : when health check passes
+     - Unhealthy : Marked unhealthy after consecutive health check failures
+
+
+Syntax:
+ - check container health by running a command inside the container
+   : HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --start-interval=5s --retries=3 CMD curl -f http://localhost/ ||  exit 1
  
+ - HEALTHCHECK NONE
+  : Disable any health check inherited from the base image.
 
 
 
