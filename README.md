@@ -673,4 +673,22 @@ Syntax:
 
 
 
+# USER INSTRUCTION
+-----------------------------
+The USER instruction in Dockerfile specifies the user context under which the instructions that follow should be executed. 
+It sets the user both for the build process and for the container at runtime.
+
+
+- sets the default user (or UID) and group( or GID) for the rest of the stage.
+- applies to the RUN, ENTRYPOINT and CMD commands.
+
+NOTE: /*If a group is set, only that group applies; other groups ignored.*/
+
+- running container as a non-root user enhances the security by minimizing the potential impact of vulnureablilities.
+- by specifying the user with limited permissions, the attack surface is reduced, making it harder for malicious actors to 
+  exploit container.
+- You can specify both a user and a group, ensuring that the process runs with appropriate permissions
+- syntax: USER <user>[:<group>]
+   here group is optional.
+
 
