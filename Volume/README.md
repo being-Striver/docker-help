@@ -2,10 +2,7 @@
 ------------------
 Containers are generally known for its volatile nature.That's because containers are disposable.The way you make any changes in 
 container, through image.thats because its called volatile.
-if you store any data in the container and if we have to replace it, its going to remove the container and create a new container so 
-when it removes the container, all the data will be also gone.but what if you have container which is stateful like Mysql that needs 
-DB, it stores databases and reads from the database. if you happen to replace that container, all the data will be also gone.So for 
-that we have containers volumes.
+if you store any data in the container and if we have to replace it, its going to remove the container and create a new container so when it removes the container, all the data will be also gone.but what if you have container which is stateful like Mysql that needs DB, it stores databases and reads from the database. if you happen to replace that container, all the data will be also gone.So for that we have containers volumes.
 
 Container data:
 - The data doesn't persist when the container no longer exists and it can be difficult to get data out of container if another process 
@@ -66,8 +63,34 @@ NOTE: Once you are done with activity, make sure you clean up.
 -----------------------------
 1. Named volumes
 2. Anonymous volumes
+   : docker volume create (it will create anonymous volume).
 
+
+# Commands
+---------------------------
+  #create an anonymous volume
+   -- docker volume create
   
+  #List docker volumes
+   -- docker volume ls
+  #Inspect the docker volume
+   -- docker volume inspect <volume-name>
+
+  #delete volumes 
+   --  docker volume prune
+
+  #delete specific volume
+   -- docker volume rm 
+
+
+# Volume mount options
+---------------------------
+- : --mount
+- : -v
+
+ **NOTE**: /*The --mount flag is the newer and more verbose way to specify volume mounts in Docker. It provides a clearer syntax and more options than the -v flag.*/
+ 
+
 
 
 # Bind Mounts
