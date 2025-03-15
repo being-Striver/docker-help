@@ -64,18 +64,13 @@ docker client:
 
     # Container vs image:
     -----------------------
-        Image is a template which is used to create container.while containers are running instances of images and they are isolated 
-        and they have their own environment and set of processes.
-
-
-
+        Image is a template which is used to create container.while containers are running instances of images and they are isolated and they have their own environment and set of processes.
 
 
 # To understand how docker works, lets understand how OS works?
 --------------------------------------------------------------
 in OS, there is OS kernel which is responsible for communicating with underlying hardware whereas OS kernel remains the same.
-Its the softwares above it, that makes it diffrent.You need to have common linux OS kernel which shares across all OSes and some custom
- software which diffrentiate operating systems(oses) from each other.
+Its the softwares above it, that makes it diffrent.You need to have common linux OS kernel which shares across all OSes and some custom software which diffrentiate operating systems(oses) from each other.
 
 
     # Docker container shares the underlying os kernel:
@@ -100,8 +95,7 @@ Its the softwares above it, that makes it diffrent.You need to have common linux
 
 **NOTE:** Docker images - images become containers when they run on docker engine.
 
-First we have to understand what we are containerising and what application we are creating an image for and how the application is 
-built. So start by thinking what you might do if you want to build application manually.
+First we have to understand what we are containerising and what application we are creating an image for and how the application is built. So start by thinking what you might do if you want to build application manually.
 
 We write down the steps required in the right order and creating an image for simple web application. 
   1. OS -ubuntu
