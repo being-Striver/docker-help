@@ -130,5 +130,10 @@ optimizing a dockerfile could involve various strategies like using a smaller ba
 # You're working on a critical application running in docker containers, and an update needs to be applied without risking data loss. How do you update a docker container without losing data?
 -----------------------------------------------------------------------------------------------------------------------------
 The steps to update a docker container without losing data are:
--  
+- create a backup of any important data stored within the container
+- stop the container gracefully using docker stop command
+- pull the latest version of the container image using docker pull
+- run the container with updated image and make sure to map correct volume or bind mounts
+
+ 
 

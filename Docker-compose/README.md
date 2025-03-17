@@ -24,3 +24,11 @@ How do you allow one container to talk to another?
      --network ums-app --network-alias mysql \
      --name ums-mysqldb \
      -v 
+
+
+
+
+
+
+
+
