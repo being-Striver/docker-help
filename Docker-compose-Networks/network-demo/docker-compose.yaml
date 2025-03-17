@@ -1,0 +1,54 @@
+name: ums-stack
+services:
+  web-nginx:
+    image: nginx:latest
+    container_name: ums-nginx
+    ports:
+      - "5000:8080"
+    depends_on:
+      - app-ums 
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    networks:
+      - frontend
+  
+  app-ums:
+    image: ghcr.io/stacksimplify/usermgmt-webapp-v6:latest
+    ports: 
+      - "8080"
+    deploy:
+      replicas: 2
+
+    depends_on:
+      - db-mysql
+    environment:
+      - DB_HOSTNAME=db-mysql
+      - DB_PORT=3306
+      - DB_NAME=webappdb
+      - DB_USERNAME=root
+      - DB_PASSWORD=dbpassword11
+    networks:
+      - frontend
+      - backend
+
+  db-mysql:
+    image: mysql:8.0-bookworm
+    container_name: ums-mysqldb
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=dbpassword11
+      - MYSQL_DATABASE=webappdb
+    ports:
+      - "3306:3306"
+    volumes:
+      - mydb:/var/lib/mysql
+    networks:
+      - backend
+
+volumes:
+  mydb:
+
+networks:
+  frontend:
+  backend:
+
