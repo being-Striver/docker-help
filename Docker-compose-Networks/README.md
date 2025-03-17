@@ -133,3 +133,12 @@ This configuration showcases a typical multi-tier application setup:
             # 2. app-ums Service needs connectivity to both frontend and backend db.
 
 
+
+# Conclusions
+--------------------
+1. Isolated and Secure Networks
+   - Isolation of Database: db-mysql is attached only to the backend network, isolating it from the external-facing web-nginx service for improved security.
+   - No Host Networking: Services communicate internally via Docker networks, reducing exposure of services to the outside world.
+
+2. Service Discovery Using DNS
+   - Each service in a Docker network can be accessed by its service name. Docker networks provide a built-in DNS service, making it easy to manage and scale multi-container applications.
