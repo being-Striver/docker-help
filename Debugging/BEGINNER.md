@@ -526,3 +526,196 @@ You can define healthchecks in your final stage to ensure that your application 
 
 # Using Remote debugging tools
 ------------------------------------
+Remote debugging is a powerful technique that allows developers to debug applications running inside Docker containers from their local development environment. This approach offers several advantages, including the ability to use familiar debugging tools, set breakpoints, inspect variables, and step through code without directly modifying the container. This lesson will explore how to leverage remote debugging tools, specifically focusing on the VS Code Docker extension, to streamline the debugging process for Dockerized applications.
+
+
+Steps for Remote Debugging
+--------------------------------
+  Configure the Dockerfile:
+  ------------------------------
+  Install the necessary debugging tools within the Docker image. For Python, this might involve installing debugpy.
+  Expose the debugging port in the Dockerfile using the EXPOSE instruction.
+
+          # Dockerfile
+          FROM python:3.9-slim-buster
+
+          WORKDIR /app
+
+          COPY requirements.txt .
+          RUN pip install --no-cache-dir -r requirements.txt
+
+          COPY . .
+
+          # Install debugpy for remote debugging
+          RUN pip install debugpy
+
+          # Expose the debugging port
+          EXPOSE 5678
+
+          CMD ["python", "app.py"]
+
+  Modify the Application Code:
+  -------------------------------
+  Add code to start the debugger server when the application runs. For Python with debugpy, this involves adding a few lines to your main application file.
+            # app.py
+            import debugpy
+
+            # Allow remote debugging
+            debugpy.listen(("0.0.0.0", 5678))
+
+            # Wait for the debugger to attach
+            debugpy.wait_for_client()
+
+            from flask import Flask
+
+            app = Flask(__name__)
+
+            @app.route("/")
+            def hello_world():
+                message = "Hello, World!"
+                return message
+
+            if __name__ == '__main__':
+                app.run(debug=True, host='0.0.0.0')
+
+  Create a VS Code Debug Configuration:
+  -------------------------------------
+  Open the VS Code "Run and Debug" view (Ctrl+Shift+D or Cmd+Shift+D).
+  Click "create a launch.json file".
+  Choose "Python" (or the appropriate language for your application).
+  Modify the generated launch.json file to configure the remote debugging session.
+                // .vscode/launch.json
+                {
+                    "version": "0.2.0",
+                    "configurations": [
+                        {
+                            "name": "Docker: Attach to Remote Container",
+                            "type": "python",
+                            "request": "attach",
+                            "connect": {
+                                "host": "localhost",
+                                "port": 5678
+                            },
+                            "pathMappings": [
+                                {
+                                    "localRoot": "${workspaceFolder}",
+                                    "remoteRoot": "/app"
+                                }
+                            ]
+                        }
+                    ]
+                }
+  - name: A descriptive name for the debug configuration.
+  - type: The type of debugger (e.g., "python").
+  - request: Set to "attach" to connect to a running process.
+  - connect: Specifies the host and port of the debugger server inside the container. Here, we use localhost because we'll be forwarding the container's port to our local machine.
+  - pathMappings: Maps the local project directory to the corresponding directory inside the container. This is crucial for VS Code to correctly resolve breakpoints and source code.
+  - Build and Run the Docker Container:
+
+  Build the Docker image using `docker build -t my-app .`.
+  Run the container, ensuring that you forward the debugging port (5678) from the container to your local machine.
+  - docker run -p 5000:5000 -p 5678:5678 my-app
+-p 5000:5000 maps the application port (5000) to your local machine.
+-p 5678:5678 maps the debugging port (5678) to your local machine.
+
+  Start Debugging:
+  ----------------------------
+  - In VS Code, select the "Docker: Attach to Remote Container" debug configuration.
+  - Set breakpoints in your code.
+  - Start the debugger by pressing F5 or clicking the "Start Debugging" button.
+  - VS Code will connect to the debugger server inside the container.
+  - Trigger the code that contains your breakpoints (e.g., by sending a request to the Flask application).
+  - VS Code will pause execution at the breakpoints, allowing you to inspect variables, step through code, and debug your application.
+
+
+
+# profiling
+----------------
+Profiling is the process of analyzing an application's performance to identify areas that consume the most resources, such as CPU time, memory, or I/O operations. It helps developers understand how their code behaves in a production-like environment and pinpoint bottlenecks that can be optimized.
+
+Why Profile Dockerized Applications?
+---------------------------------------
+- Resource Constraints: Docker containers often have resource limits (CPU, memory). Profiling helps ensure your application stays within these limits.
+- Performance in Isolation: Docker provides an isolated environment, which can affect application performance. Profiling within the container gives a more accurate view.
+- Microservices Architecture: In microservices, identifying bottlenecks in one service is crucial for overall system performance. Docker makes it easier to isolate and profile individual services.
+- Reproducibility: Docker ensures a consistent environment, making profiling results more reliable and reproducible across different machines.
+
+
+Types of Profiling:
+----------------------------
+- CPU Profiling: Measures the time spent in different parts of the code. Useful for identifying CPU-intensive tasks.
+- Memory Profiling: Tracks memory allocation and usage. Helps detect memory leaks and optimize memory consumption.
+- I/O Profiling: Monitors input/output operations. Useful for identifying slow disk or network operations.
+
+Using Python's `cProfile` :
+-----------------------------
+Python's cProfile module is a built-in profiler that can be used to analyze the performance of Python code.
+
+please check the implementation in cProfile folder under Docker.
+
+Analyzing the cProfile Output
+------------------------------
+The cProfile output shows the number of calls, cumulative time, and time per call for each function. This helps you identify the functions that are taking the most time.
+
+
+
+
+# Healthcheck features
+-------------------------
+A Docker healthcheck is a command that Docker periodically runs inside a container to determine if the container is healthy and functioning as expected. The healthcheck command can be anything executable within the container, such as a shell script, a curl request to an application endpoint, or a database query.
+
+Docker uses the exit code of the healthcheck command to determine the container's health status:
+------------------------------------------------------------------------------------------------
+
+      0: healthy - The container is functioning correctly.
+      1: unhealthy - The container is not functioning correctly.
+      2: reserved - Do not use this exit code.
+
+  Example 1: Healthcheck with `curl`
+
+    - HEALTHCHECK --interval=5s --timeout=3s --retries=3 CMD curl -f http://localhost/ || exit 1
+    
+    : --interval=5s: The healthcheck runs every 5 seconds.
+    : --timeout=3s: If the curl command takes longer than 3 seconds, the healthcheck is considered failed.
+    : --retries=3: The container must fail three consecutive healthchecks before being marked as unhealthy.
+    : CMD curl -f http://localhost/ || exit 1: This command uses curl to check if the web server is responding on port 80. The `-f` flag tells curl to fail silently on HTTP errors. If curl fails (returns a non-zero exit code), the || exit 1 part ensures that the healthcheck also returns a non-zero exit code, indicating an unhealthy state.
+
+
+Example 2: Healthcheck with shell script
+
+  : RUN echo '#!/bin/bash \n curl -f http://localhost/ || exit 1' > /usr/local/bin/healthcheck.sh && chmod +x /usr/local/bin/healthcheck.sh
+  : HEALTHCHECK --interval=5s --timeout=3s --retries=3 CMD /usr/local/bin/healthcheck.sh
+
+
+Example 3: Healthcheck for database connection
+  : RUN echo '#!/bin/bash \n set -e \n psql -U "$POSTGRES_USER" -d "$POSTGRES_DB" -c "SELECT 1" > /dev/null 2>&1 \n if [ $? -ne 0 ]; then \n  exit 1 \n fi' > /usr/local/bin/healthcheck.sh && chmod +x /usr/local/bin/healthcheck.sh
+  : HEALTHCHECK --interval=10s --timeout=5s --retries=3 CMD /usr/local/bin/healthcheck.sh
+
+
+Inspecting health status:
+-------------------------
+- `docker inspect <container_id>`
+
+The output will include HEALTH section with details about health status.
+
+
+
+# Debugging intermittent issues and race conditions
+---------------------------------------------------------
+Intermittent issues, also known as heisenbugs, are problems that occur sporadically and are difficult to reproduce consistently. They might appear seemingly at random, making them frustrating to debug.
+
+
+Common Causes of Intermittent Issues:
+----------------------------------------
+- Race Conditions: Occur when the program's behavior depends on the unpredictable order in which different parts of the program execute. This is especially common in multi-threaded or concurrent applications.
+- Resource Contention: When multiple processes or threads compete for the same resource (e.g., memory, CPU, network bandwidth), the timing of access can lead to unpredictable behavior.
+- Network Latency: Variations in network latency can cause timeouts or errors in distributed systems.
+External Dependencies: Issues in external services or APIs that your application relies on can manifest as intermittent failures.
+- Uninitialized Variables: Using variables before they have been properly initialized can lead to unpredictable behavior, especially in languages like C/C++.
+- Floating-Point Precision: Subtle differences in floating-point calculations across different hardware or software environments can sometimes lead to unexpected results.
+- Caching Issues: Problems with caching mechanisms, such as stale data or cache invalidation issues, can cause intermittent inconsistencies.
+
+
+
+# Debugging network issues
+----------------------------------
